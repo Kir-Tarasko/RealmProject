@@ -74,8 +74,16 @@ class TasksViewController: UITableViewController {
             let doneAction = UIContextualAction(style: .normal, title: doneTitle) { _, _, isDone in
                 StorageManager.shared.done(task: task)
                 
-                let indexPathForCurrentTask = IndexPath(row: self.currentTasks.count - 1, section: 0)
-                let indexPathForCompletedTask = IndexPath(row: self.completedTasks.count - 1, section: 1)
+//                let indexPathForCurrentTask = IndexPath(row: self.currentTasks.count - 1, section: 0)
+//                let indexPathForCompletedTask = IndexPath(row: self.completedTasks.count - 1, section: 1)
+                let indexPathForCurrentTask = IndexPath(
+                    row: self.currentTasks.index(of: task) ?? 0,
+                    section: 0
+                )
+                let indexPathForCompletedTask = IndexPath(
+                    row: self.completedTasks.index(of: task) ?? 0,
+                    section: 1
+                )
                 let destinationIndexRow = indexPath.section == 0 ? indexPathForCompletedTask : indexPathForCurrentTask
                 
                 tableView.moveRow(at: indexPath, to: destinationIndexRow)
@@ -86,7 +94,9 @@ class TasksViewController: UITableViewController {
             return UISwipeActionsConfiguration(actions: [doneAction,editAction,deleteAction])
         }
     
-    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
     
     @objc private func addButtonPressed() {
         showAlert()
@@ -119,9 +129,9 @@ extension TasksViewController {
         tableView.insertRows(at: [rowIndex], with: .automatic)
     }
     
-    private func filteringTasks() {
-        currentTasks = taskList.tasks.filter("isComplete = false")
-        completedTasks = taskList.tasks.filter ("isComplete = true")
-        tableView.reloadData()
-    }
+//    private func filteringTasks() {
+//        currentTasks = taskList.tasks.filter("isComplete = false")
+//        completedTasks = taskList.tasks.filter ("isComplete = true")
+//        tableView.reloadData()
+//    }
 }

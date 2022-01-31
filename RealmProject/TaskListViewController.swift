@@ -36,17 +36,22 @@ class TaskListViewController: UITableViewController {
         taskLists.count
     }
     
+//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "TaskListCell", for: indexPath)
+//        var content = cell.defaultContentConfiguration()
+//        let taskList = taskLists[indexPath.row]
+//        content.text = taskList.name
+//        content.secondaryText = "\(taskList.tasks.count)"
+//        cell.contentConfiguration = content
+//        return cell
+//    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskListCell", for: indexPath)
-        var content = cell.defaultContentConfiguration()
         let taskList = taskLists[indexPath.row]
-        content.text = taskList.name
-        content.secondaryText = "\(taskList.tasks.count)"
-        cell.contentConfiguration = content
+        cell.configure(with: taskList)
         return cell
     }
-    
-   
     
     // MARK: - Table View Data Source
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -130,4 +135,9 @@ extension TaskListViewController {
         let rowIndex = IndexPath(row: taskLists.index(of: taskList) ?? 0, section: 0)
         tableView.insertRows(at: [rowIndex], with: .automatic)
     }
+    
+   
+    
 }
+
+
